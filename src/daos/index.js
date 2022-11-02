@@ -1,25 +1,21 @@
-import * as dotenv from 'dotenv'
-dotenv.config()
+let productosDAO
+let carritoDAO
 
-const daos = {
-    mongo : async () =>{
-        const {default: CarritoDaoMongo } = await import ("./carrito/daoCarritoMongo.js")
-        const {default: ProductosDaoMongo } = await import ("./productos/daoProductosMongo.js")
-        return {
-            carritoDAO : new CarritoDaoMongo(),
-            productosDAO: new ProductosDaoMongo()
-        }
-    },
-    archivo: async () =>{
-        const { default : CarritoDaoArchivo } = await import ("./carrito/daoCarritoArchivo.js")
-        const { default : ProductosDaoArchivo } = await import ("./productos/daoProductosArchivo.js")
-        return {
-            carritoDAO : new CarritoDaoArchivo(),
-            productosDAO : new ProductosDaoArchivo()
-        }
-    }
-    
+switch (process.env.TIPO) {
+    case "mongo":
+        const { default: CarritoDaoMongo} = await import("./carrito/daoCarritoMongo.js")
+        const { default: ProductosDaoMongo} = await import("./productos/daoProductosMongo.js")
+        productosDAO = new ProductosDaoMongo()
+        carritoDAO = new CarritoDaoMongo()
+        break
+
+    case "file":
+        const {default: CarritoDaoArchivo} = await import("./carrito/daoCarritoArchivo.js")
+        const {default: ProductosDaoArchivo} = await import("./productos/daoProductosArchivo.js")
+
+        productosDAO = new ProductosDaoArchivo()
+        carritoDAO = new CarritoDaoArchivo()
+        break
 }
 
-
-export default daos[process.env.TIPO];
+export default productosDAO

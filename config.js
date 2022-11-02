@@ -1,5 +1,5 @@
 const config ={
-    mongoDB :{
+    mongo:{
         uri: "mongodb://localhost:27017/ecommerce",
         options:{
             serverSelectionTimeout: 5000,

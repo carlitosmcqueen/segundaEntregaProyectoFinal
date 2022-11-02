@@ -24,7 +24,6 @@ class ContenedorArchivo {
 
     async guardar(obj) {
         const objs = await this.listarAll()
-
         let newId
         if (objs.length == 0) {
             newId = 1
